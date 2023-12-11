@@ -212,7 +212,7 @@ def nn_classifier(dataT, dataH, xfeatureList, yfeature, hiddenlayers=(100,100),s
 ### END FUNCTION DEFINITION PORTION OF SCRIPT ###
 
 ### BEGIN MAIN EXECUTION PORTION OF SCRIPT ###
-baseDir = 'C:/Development/DoD/' #set this to the directory you want to use as a base directory for everything, typically this is the folder where this script resides and in which you have a virtual environment set up (e.g. - the venv or menv folder)
+baseDir = 'C:/Development/Fun_With_ML/' #set this to the directory you want to use as a base directory for everything, typically this is the folder where this script resides and in which you have a virtual environment set up (e.g. - the venv or menv folder)
 fName = 'sample.xlsx' #variable designating the name of our data file, in this case I've created a sample set of data and called it sample.xlsx (it's an excel spreadsheet with 10k observations and a y that is a complex function of all of the x variables of which there are 7)
 
 #NOTE: In the sample data I've provided, the input features are X1 to X7 and the yfeatures are either yr (for the regression values) or yc (for the classification values)
