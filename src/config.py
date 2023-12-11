@@ -33,6 +33,8 @@ class Config(metaclass=Singleton):
         self.uid = os.getenv("UID")
         self.pid = os.getenv("PID")
         self.server = os.getenv("SERVER")
+        self.port = os.getenv("PORT")
+        self.database = os.getenv("DATABASE")
         self.base_directory = os.getenv("BASE_DIRECTORY")
 
         self._set_dynamic_attributes("DB")

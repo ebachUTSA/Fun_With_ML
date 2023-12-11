@@ -1,7 +1,4 @@
-import pandas as pd
-from src.config import Config
-from src.utils.conn_manager import create_connection
+from src.utils import insertSQLPandas, selectSQLPandas
 
-with create_connection() as conn:
-    df = pd.read_sql('select * from something',conn)
+df = selectSQLPandas('select * from test')
 print(df)
