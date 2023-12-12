@@ -1,9 +1,18 @@
 from src.utils import insertSQLPandas, selectSQLPandas, getPageSource, getSoup, getFedBenniesUrl
 
-urls = getFedBenniesUrl(78006)
+from src.config import Config
+config = Config()
 
-for url in urls:
-    print(url)
+import pandas as pd
+
+df = pd.read_excel(f"{config.base_directory}/data/zipcodes.xlsx")
+
+insertSQLPandas(df,'zipcodes')
+
+# urls = getFedBenniesUrl(78006)
+
+# for url in urls:
+#     print(url)
 
 # baseUrl = 'https://www.shodan.io'
 # url = 'https://www.shodan.io/search?query=port+3389'
