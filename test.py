@@ -1,13 +1,14 @@
 from src.utils import insertSQLPandas, selectSQLPandas, getPageSource, getSoup, getFedBenniesUrl
 
-from src.config import Config
-config = Config()
+zips_df = selectSQLPandas('select * from zipcodes')
 
-import pandas as pd
+bigListofUrls = []
 
-df = pd.read_excel(f"{config.base_directory}/data/zipcodes.xlsx")
-
-insertSQLPandas(df,'zipcodes')
+for _, row in zips_df.iterrows():
+    zipCode = row['Official Code ZIP Code']
+    bigListofUrls += getFedBenniesUrl(zipCode)
+    
+print(len(bigListofUrls))
 
 # urls = getFedBenniesUrl(78006)
 
