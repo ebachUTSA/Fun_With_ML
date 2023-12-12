@@ -9,3 +9,7 @@ def getPageSource(url,justSource=True,userAgent='Mozilla/5.0 (Windows NT 10.0; W
     else:
         results = r
     return results
+
+def getSoup(content,parser='html.parser'):
+    soup = bs(content,parser)
+    return soup
