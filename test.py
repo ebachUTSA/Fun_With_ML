@@ -1,4 +1,7 @@
-from src.utils import insertSQLPandas, selectSQLPandas
+from src.utils import insertSQLPandas, selectSQLPandas, getPageSource
 
-df = selectSQLPandas('select * from secretsq.test')
-print(df)
+url = ''
+
+results = getPageSource(url)
+
+print(results)
