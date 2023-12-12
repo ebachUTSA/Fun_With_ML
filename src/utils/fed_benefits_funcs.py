@@ -1,4 +1,6 @@
-def getFedBenniesUrl(zipCode):
+from bs4 import BeautifulSoup as bs
+
+def getFedBennitsUrls(zipCode):
     payPeriods =   {
                         'c':'biweekly',
                         'd':'every four weeks',
@@ -30,3 +32,22 @@ def getFedBenniesUrl(zipCode):
         for payPeriod in payPeriod_avails:
             results.append((f"https://www.opm.gov/healthcare-insurance/healthcare/plan-information/compare-plans/fehb/Plans?ZipCode={zipCode}&empType={empType}&payPeriod={payPeriod}",zipCode,empTypes[empType],payPeriods[payPeriod]))
     return results #returns a list of tuples
+
+def parseFedBenefitsDataTable(soup):
+    dataTable = soup.find('table',{'id':'DashboardNotificationsTable'})
+    dataHeaderRow = dataTable.find('thead',{'id':'PlanTableHead'}).find('tr')
+    dataRows = dataTable.find('tbody').find_all('tr')
+    parseRow(dataHeaderRow)
+    
+    
+def parseRow(soup):
+    for th in soup.find_all('th'):
+        # for div in th.find_all('div',{'class':'description'}):
+        #     div.decompose()
+        # headerValue = th.text.strip()
+        descriptionDiv = th.find('div',{'class':'description'})
+        if descriptionDiv is not None:
+            headerValue = descriptionDiv.get('title')
+        else:
+            continue
+        print(headerValue)
