@@ -1,5 +1,18 @@
 import pandas as pd
-from src.utils import getPageSource, getSoup, insertSQLPandas
+from src.utils import getPageSource, getSoup, insertSQLPandas, selectSQLPandas
+from src.config import Config
+config = Config()
+
+def getRegions():
+    with open(f"{config.base_directory}/data/regions.txt",'r') as f:
+        regions = f.read().split('\n')
+        regions = [region.lower().strip() for region in regions]
+    return regions
+
+def getAlreadyCollected():
+    df = selectSQLPandas('select distinct url from craigslist')
+    urlList = df['url'].values.tolist()
+    return urlList
 
 def getPostContent(url):
     postid = url.split('/')[-1].split('.')[0]
@@ -34,7 +47,7 @@ def getPostContent(url):
         gmaps_url = None
     return (title,body,dtg,lat,long,gmaps_url,postid,expiration)
 
-def getAllLinks(url):
+def getAllLinks(url,alreadyCollected):
     url = url + '?sort=dateoldest'
     p1='#search=1~list~'
     p2= '~0'
@@ -56,13 +69,14 @@ def getAllLinks(url):
                     break
                 else:
                     oldurl = subUrl
-            results.append(subUrl)
+            if subUrl not in (alreadyCollected):
+                results.append(subUrl)
             rowcount += 1
         pcount += 1
     return results
 
-def insertCraigslistData(region_url):
-    post_urls = getAllLinks(region_url)
+def insertCraigslistData(region_url,alreadyCollected=[]):
+    post_urls = getAllLinks(region_url,alreadyCollected)
     data = {'url':[]
             ,'title':[]
             ,'body':[]
