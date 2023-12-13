@@ -2,3 +2,4 @@ __pycache__
 menv/*
 output/*
 .env
+data/google_en_w2v.bin
