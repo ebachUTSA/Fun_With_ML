@@ -7,6 +7,6 @@ boards = ['ccc','jjj','ggg','bbb','rrr']
 for region in regions:
     print('Working',region)
     for board in boards:
-        print('Working',board)
+        print('\tWorking',board)
         region_url = f"https://{region}.craigslist.org/search/{board}"
         insertCraigslistData(region_url,alreadyCollected=alreadyCollected)
