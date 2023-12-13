@@ -1,0 +1,4 @@
+#from command line, execute these in your venv
+python -m spacy download en_core_web_sm
+
+#we need to invoke nltk.download()

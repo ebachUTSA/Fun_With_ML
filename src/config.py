@@ -1,11 +1,13 @@
 import abc
 import os
-
+from gensim.models import KeyedVectors
 from dotenv import load_dotenv
-
 # Load environment variables from .env file
 load_dotenv()
 
+def loadModel(modelPath):
+    model = KeyedVectors.load_word2vec_format(modelPath, binary=True)
+    return model
 
 class Singleton(abc.ABCMeta, type):
     """Singleton metaclass for ensuring only one instance of a class."""
@@ -37,7 +39,8 @@ class Config(metaclass=Singleton):
         self.database = os.getenv("DATABASE")
         self.base_directory = os.getenv("BASE_DIRECTORY")
         self.request_list = []
-
+        self.w2v_model = loadModel(f"{self.base_directory}/data/google_en_w2v.bin") #we should think about where we want to load
+    
         self._set_dynamic_attributes("DB")
         self._set_dynamic_attributes("TABLE")
 
