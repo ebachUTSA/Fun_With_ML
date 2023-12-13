@@ -5,3 +5,4 @@ from src.utils.fed_benefits_funcs import getFedBennitsUrls, parseFedBenefitsData
 from src.utils.craigslist import getAllLinks, getPostContent, insertCraigslistData, getAlreadyCollected, getRegions
 from src.utils.youtubDownloader import downloadYoutube
 from src.utils.videoSlicer import sliceVideo
+from src.utils.feature_generation import generateTextFeatures
