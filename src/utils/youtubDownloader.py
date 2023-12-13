@@ -39,9 +39,3 @@ def downloadYoutube(url,fName,ratelimit=5000000,myformat='best[ext=mp4]'):
     if ydl_opts is not None:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download(url)
-
-baseDir = 'c:/development/other/yt_downloader/downloads/'
-fName = 'UnderPressure'
-url = 'https://www.youtube.com/watch?v=a01QQZyl-_I'
-
-downloadYoutube(url,f"{baseDir}{fName}")

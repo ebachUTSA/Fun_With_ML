@@ -1,3 +1,4 @@
 __pycache__
 menv/*
+output/*
 .env
