@@ -1,4 +1,6 @@
 from gensim.models import KeyedVectors
+from nltk.corpus import stopwords
+stop_words = stopwords.words('english')
 from src.config import Config
 config = Config()
 
@@ -61,3 +63,32 @@ def leastSimilar(words):
             return None
     odd_one_out = model.doesnt_match(words)
     return odd_one_out
+
+def clean_text(text):
+    result = []
+    badChars = '~!@#$%^&*()_+=`[]\\;,./{}|:"<>?'
+    # text = text.lower() #after testing the w2v, casing does appear to matter, at least for proper nouns
+    text = text.replace('\n',' ')
+    while '  ' in text:
+        text = text.replace('  ',' ')
+    for c in badChars:
+        text = text.replace(c,'')
+    cleaned_text = text.split(' ')
+    for word in cleaned_text:
+        if word not in stop_words:
+            result.append(word)
+    return result
+
+def compareTexts(text1,text2):
+    texts = [text1,text2]
+    cleaned_texts = []
+    distances = []
+    for text in texts:
+        cleaned_texts.append(clean_text(text))
+    for word1 in cleaned_texts[0]:
+        for word2 in cleaned_texts[1]:
+            wd = wordDistance(word1,word2)
+            if wd is not None:
+                distances.append(wd)
+    return sum(distances)/len(distances)
+            

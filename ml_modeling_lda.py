@@ -97,8 +97,8 @@ def main():
     visuals
     '''
     useMulticore = True
-    textcol = '' #define your text column!
-    sql = '' #define your sql statement to get the data you want!!!
+    textcol = 'body' #define your text column!
+    sql = 'select postid, body from craigslist' #define your sql statement to get the data you want!!!
     
     df = selectSQLPandas(sql)
     data = df[textcol].values.tolist()
@@ -130,11 +130,13 @@ def main():
     alpha.append('symmetric')
     alpha.append('asymmetric')
     alpha.append('auto') #cannot be used with lda multicore
+    alpha.reverse()
 
     # Beta parameter
     beta = list(np.arange(0.01, 1, 0.1))
     beta.append('symmetric')
     beta.append('auto')
+    beta.reverse()
 
     # Validation sets
     num_of_docs = len(corpus)

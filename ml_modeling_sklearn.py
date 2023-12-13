@@ -12,6 +12,7 @@ from sklearn.svm import SVR, SVC
 from sklearn.neural_network import MLPRegressor, MLPClassifier
 from sklearn.metrics import mean_squared_error, mean_absolute_error, median_absolute_error, r2_score, explained_variance_score, accuracy_score, roc_auc_score
 from sklearn.model_selection import KFold
+from src.utils import selectSQLPandas
 
 
 ### END IMPORT PORTION OF SCRIPT ###
@@ -216,13 +217,19 @@ baseDir = 'C:/Development/Fun_With_ML/' #set this to the directory you want to u
 fName = 'sample.xlsx' #variable designating the name of our data file, in this case I've created a sample set of data and called it sample.xlsx (it's an excel spreadsheet with 10k observations and a y that is a complex function of all of the x variables of which there are 7)
 
 #NOTE: In the sample data I've provided, the input features are X1 to X7 and the yfeatures are either yr (for the regression values) or yc (for the classification values)
-xFeatures = ('x1','x2','x3','x4','x5','x6','x7')
-yFeatureC = 'yc'
+xFeatures = ('HARV_Positiv', 'HARV_Negativ', 'HARV_Pstv', 'HARV_Affil', 'HARV_Ngtv', 'HARV_Hostile', 'HARV_Strong', 'HARV_Power', 'HARV_Weak', 'HARV_Submit', 'HARV_Active', 'HARV_Passive', 'HARV_Pleasur', 'HARV_Pain', 'HARV_Feel', 'HARV_Arousal', 'HARV_EMOT', 'HARV_Virtue', 'HARV_Vice', 'HARV_Ovrst', 'HARV_Undrst', 'HARV_Academ', 'HARV_Doctrin', 'HARV_Econ2', 'HARV_Exch', 'HARV_ECON', 'HARV_Exprsv', 'HARV_Legal', 'HARV_Milit', 'HARV_Polit2', 'HARV_POLIT', 'HARV_Relig', 'HARV_Role', 'HARV_COLL', 'HARV_Work', 'HARV_Ritual', 'HARV_SocRel', 'HARV_Race', 'HARV_Kin2', 'HARV_MALE', 'HARV_Female', 'HARV_Nonadlt', 'HARV_HU', 'HARV_ANI', 'HARV_PLACE', 'HARV_Social', 'HARV_Region', 'HARV_Route', 'HARV_Aquatic', 'HARV_Land', 'HARV_Sky', 'HARV_Object', 'HARV_Tool', 'HARV_Food', 'HARV_Vehicle', 'HARV_BldgPt', 'HARV_ComnObj', 'HARV_NatObj', 'HARV_BodyPt', 'HARV_ComForm', 'HARV_COM', 'HARV_Say', 'HARV_Need', 'HARV_Goal', 'HARV_Try', 'HARV_Means', 'HARV_Persist', 'HARV_Complet', 'HARV_Fail', 'HARV_NatrPro', 'HARV_Begin', 'HARV_Vary', 'HARV_Increas', 'HARV_Decreas', 'HARV_Finish', 'HARV_Stay', 'HARV_Rise', 'HARV_Exert', 'HARV_Fetch', 'HARV_Travel', 'HARV_Fall', 'HARV_Think', 'HARV_Know', 'HARV_Causal', 'HARV_Ought', 'HARV_Perceiv', 'HARV_Compare', 'HARV_Eval2', 'HARV_EVAL', 'HARV_Solve', 'HARV_Abs2', 'HARV_ABS', 'HARV_Quality', 'HARV_Quan', 'HARV_NUMB', 'HARV_ORD', 'HARV_CARD', 'HARV_FREQ', 'HARV_DIST', 'HARV_Time2', 'HARV_TIME', 'HARV_Space', 'HARV_POS', 'HARV_DIM', 'HARV_Rel', 'HARV_COLOR', 'HARV_Self', 'HARV_Our', 'HARV_You', 'HARV_Name', 'HARV_Yes', 'HARV_No', 'HARV_Negate', 'HARV_Intrj', 'HARV_IAV', 'HARV_DAV', 'HARV_SV', 'HARV_IPadj', 'HARV_IndAdj', 'HARV_PowGain', 'HARV_PowLoss', 'HARV_PowEnds', 'HARV_PowAren', 'HARV_PowCon', 'HARV_PowCoop', 'HARV_PowAuPt', 'HARV_PowPt', 'HARV_PowDoct', 'HARV_PowAuth', 'HARV_PowOth', 'HARV_PowTot', 'HARV_RcEthic', 'HARV_RcRelig', 'HARV_RcGain', 'HARV_RcLoss', 'HARV_RcEnds', 'HARV_RcTot', 'HARV_RspGain', 'HARV_RspLoss', 'HARV_RspOth', 'HARV_RspTot', 'HARV_AffGain', 'HARV_AffLoss', 'HARV_AffPt', 'HARV_AffOth', 'HARV_AffTot', 'HARV_WltPt', 'HARV_WltTran', 'HARV_WltOth', 'HARV_WltTot', 'HARV_WlbGain', 'HARV_WlbLoss', 'HARV_WlbPhys', 'HARV_WlbPsyc', 'HARV_WlbPt', 'HARV_WlbTot', 'HARV_EnlGain', 'HARV_EnlLoss', 'HARV_EnlEnds', 'HARV_EnlPt', 'HARV_EnlOth', 'HARV_EnlTot', 'HARV_SklAsth', 'HARV_SklPt', 'HARV_SklOth', 'HARV_SklTot', 'HARV_TrnGain', 'HARV_TrnLoss', 'HARV_TranLw', 'HARV_MeansLw', 'HARV_EndsLw', 'HARV_ArenaLw', 'HARV_PtLw', 'HARV_Nation', 'HARV_Anomie', 'HARV_NegAff', 'HARV_PosAff', 'HARV_SureLw', 'HARV_If', 'HARV_NotLw', 'HARV_TimeSpc', 'HARV_FormLw', 'LR_WC', 'LR_UniqueWC', 'LR_TTR', 'LR_RTTR', 'LR_CTTR', 'LR_Herdan', 'LR_Summer', 'LR_Dugast', 'LR_Maas', 'LR_MSTTR', 'LR_MATTR', 'LR_MTLD', 'LR_HDD')
+yFeatureC = 'is_resume'
 yFeatureR = 'yr'
 
 print("Loading data...")
-df = pd.read_excel(f"{baseDir}/data/{fName}") #using pandas to read in the excel file with the data, if it was csv you'd use the read_csv method of pandas, or if it was sql you'd use read_sql
+df = selectSQLPandas('select * from craigslist_ml_training_data') #using pandas to read in the excel file with the data, if it was csv you'd use the read_csv method of pandas, or if it was sql you'd use read_sql
 print("Data loaded!")
+
+xFeatures = list(df.columns)
+columns_to_remove = ['postid','is_resume','Raw_WC']
+for col in columns_to_remove:
+    xFeatures.remove(col)
+
 
 fold = 0 #variable initiated at 0 to indicate the initial fold value
 kf = KFold(n_splits = 5, shuffle = True, random_state = 123) # here we are initializing a k-fold object that splits our data for us into however many splits we specify, in each case we are essentially saying, use 80% of the data (4/5) to train on a fold and 20% to evaluate, we are shuffling each split and setting a random state for reproducibility
@@ -248,35 +255,35 @@ for foldsplit in kf.split(df): #iterate over the folds
     terrible for a regression model, consider why that might be.
     '''
     
-    start = time.time()
-    rfc_model,roc_auc,accuracy = rf_classifier(train,test,xFeatures,yFeatureC)
-    stop = time.time()
-    print(f"RFC fold{fold}: AUC={roc_auc}, Accuracy={accuracy}, Time Taken={stop-start}")
+    # start = time.time()
+    # rfc_model,roc_auc,accuracy = rf_classifier(train,test,xFeatures,yFeatureC)
+    # stop = time.time()
+    # print(f"RFC fold{fold}: AUC={roc_auc}, Accuracy={accuracy}, Time Taken={stop-start}")
 
-    start = time.time()
-    svmc_model,roc_auc,accuracy = svm_classifier(train,test,xFeatures,yFeatureC)
-    stop = time.time()
-    print(f"SVMC fold{fold}: AUC={roc_auc}, Accuracy={accuracy}, Time Taken={stop-start}")
+    # start = time.time()
+    # svmc_model,roc_auc,accuracy = svm_classifier(train,test,xFeatures,yFeatureC)
+    # stop = time.time()
+    # print(f"SVMC fold{fold}: AUC={roc_auc}, Accuracy={accuracy}, Time Taken={stop-start}")
 
     start = time.time()
     nnc_model,roc_auc,accuracy = nn_classifier(train,test,xFeatures,yFeatureC)
     stop = time.time()
     print(f"NNC fold{fold}: AUC={roc_auc}, Accuracy={accuracy}, Time Taken={stop-start}")
 
-    start = time.time()
-    rfs_model,r2, rmse, mse, mae, medianae, explainedvariance = rf_scorer(train,test,xFeatures,yFeatureR)
-    stop = time.time()
-    print(f"RFS fold{fold}: RMSE={rmse}, Time Taken={stop-start}")
+    # start = time.time()
+    # rfs_model,r2, rmse, mse, mae, medianae, explainedvariance = rf_scorer(train,test,xFeatures,yFeatureR)
+    # stop = time.time()
+    # print(f"RFS fold{fold}: RMSE={rmse}, Time Taken={stop-start}")
 
-    start = time.time()
-    svms_model,r2, rmse, mse, mae, medianae, explainedvariance = svm_scorer(train,test,xFeatures,yFeatureR)
-    stop = time.time()
-    print(f"SVMS fold{fold}: RMSE={rmse}, Time Taken={stop-start}")
+    # start = time.time()
+    # svms_model,r2, rmse, mse, mae, medianae, explainedvariance = svm_scorer(train,test,xFeatures,yFeatureR)
+    # stop = time.time()
+    # print(f"SVMS fold{fold}: RMSE={rmse}, Time Taken={stop-start}")
 
-    start = time.time()
-    nns_model,r2, rmse, mse, mae, medianae, explainedvariance = nn_scorer(train,test,xFeatures,yFeatureR)
-    stop = time.time()
-    print(f"NNS fold{fold}: RMSE={rmse}, Time Taken={stop-start}")
+    # start = time.time()
+    # nns_model,r2, rmse, mse, mae, medianae, explainedvariance = nn_scorer(train,test,xFeatures,yFeatureR)
+    # stop = time.time()
+    # print(f"NNS fold{fold}: RMSE={rmse}, Time Taken={stop-start}")
     
     
     fold += 1 #increment the split

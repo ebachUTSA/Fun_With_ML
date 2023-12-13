@@ -75,9 +75,10 @@ def getAllLinks(url,alreadyCollected):
         pcount += 1
     return results
 
-def insertCraigslistData(region_url,alreadyCollected=[]):
+def insertCraigslistData(region_url,board,alreadyCollected=[]):
     post_urls = getAllLinks(region_url,alreadyCollected)
     data = {'url':[]
+            ,'board':[]
             ,'title':[]
             ,'body':[]
             ,'dtg':[]
@@ -89,6 +90,7 @@ def insertCraigslistData(region_url,alreadyCollected=[]):
     for url in post_urls:
         title,body,dtg,lat,long,gmaps_url,postid,expiration = getPostContent(url)
         data['url'].append(url)
+        data['board'].append(board)
         data['title'].append(title)
         data['body'].append(body)
         data['dtg'].append(dtg)

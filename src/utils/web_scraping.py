@@ -16,7 +16,7 @@ def checkReqLimit(mw_tf,max_reqs):
 def getPageSource(url,mw_tf=3600,max_reqs=400,justSource=True,userAgent='Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0'):
     reqs_allowed = checkReqLimit(mw_tf,max_reqs)
     if reqs_allowed <= 0:
-        sleeptime = (config.request_list[abs(reqs_allowed)]+mw_tf) - time.time()
+        sleeptime = (config.request_list[abs(reqs_allowed)]+mw_tf+5) - time.time()
         print("Needing to sleep for",sleeptime,"seconds.")
         print("Because we are",1-reqs_allowed,"over our limit!")
         time.sleep(sleeptime)

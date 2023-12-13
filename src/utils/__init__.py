@@ -6,4 +6,4 @@ from src.utils.craigslist import getAllLinks, getPostContent, insertCraigslistDa
 from src.utils.youtubDownloader import downloadYoutube
 from src.utils.videoSlicer import sliceVideo
 from src.utils.feature_generation import generateTextFeatures
-from src.utils.word2vec import similarWords, leastSimilar, wordDistance, wordEquation
+from src.utils.word2vec import similarWords, leastSimilar, wordDistance, wordEquation, compareTexts
